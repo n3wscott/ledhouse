@@ -27,14 +27,10 @@ void loop() {
       int red = StrToHex(inputString.substring(5,7));
       int green = StrToHex(inputString.substring(7,9));
       int blue = StrToHex(inputString.substring(9,11));
-
-      Serial.println(index);
-      Serial.println(red);
-      Serial.println(green);
-      Serial.println(blue);
-
-      strip.setPixelColor(index, strip.Color(red, blue, green));
+      
+      strip.setPixelColor(index, strip.Color(red, green, blue));
       strip.show();
+      
     } else if (inputString.startsWith("CLEAR")) {
       colorWipe(strip.Color(0, 0, 0), 50);
     }
