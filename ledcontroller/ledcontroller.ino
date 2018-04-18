@@ -14,23 +14,20 @@ void setup() {
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
 
-  Serial.begin(115200);
+  Serial.begin(19200);
+  Serial.println("READY");
   inputString.reserve(200);
 }
 
 void loop() {
   if (stringComplete) {
-    Serial.println(inputString);
-
     if (inputString.startsWith("LED") && inputString.length() == 12) {
       int index = StrToHex(inputString.substring(3,5));
       int red = StrToHex(inputString.substring(5,7));
       int green = StrToHex(inputString.substring(7,9));
       int blue = StrToHex(inputString.substring(9,11));
-      
       strip.setPixelColor(index, strip.Color(red, green, blue));
       strip.show();
-      
     } else if (inputString.startsWith("CLEAR")) {
       colorWipe(strip.Color(0, 0, 0), 50);
     }
