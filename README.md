@@ -1,7 +1,7 @@
 # ledhouse
 
 LED House runs on an Ardunio with a strip of 10 NeoPixels. It is intended to be
-a representation of home light automation for a Kubecon EU 2018 for my talk
+a representation of home light automation for my talk at Kubecon EU 2018
 entitled [Kubernetes as an Abstraction Layer for a Connected Home](http://sched.co/DqwC)
 
 I built this because it is much more portable to demo than bringing Hue Lights
