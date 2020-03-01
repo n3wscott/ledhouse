@@ -55,6 +55,13 @@ func main() {
 	// Make sure to close it later.
 	defer port.Close()
 
+	{
+		_, err := port.Write([]byte("\n\n\n"))
+		if err != nil {
+			log.Fatalf("port.Write: %v", err)
+		}
+	}
+
 	if options.Loops == 0 {
 		for {
 			loop(port)
