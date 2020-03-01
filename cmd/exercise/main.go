@@ -17,11 +17,13 @@ func usage() {
 var options struct {
 	SerialPort string
 	SerialBaud uint
+	Loops uint
 }
 
 func init() {
 	flag.StringVar(&options.SerialPort, "serial", "", "The serial port to use to connect to the ledhouse.")
 	flag.UintVar(&options.SerialBaud, "baud", 19200, "The baud rate the serial port will use.")
+	flag.UintVar(&options.Loops, "loops", 1, "The number of loops to perform. 0 means forever.")
 	flag.Parse()
 }
 
@@ -36,7 +38,7 @@ func main() {
 	}
 
 	// Set up options.
-	options := serial.OpenOptions{
+	opts := serial.OpenOptions{
 		PortName:        options.SerialPort,
 		BaudRate:        options.SerialBaud,
 		DataBits:        8,
@@ -45,11 +47,34 @@ func main() {
 	}
 
 	// Open the port.
-	port, err := serial.Open(options)
+	port, err := serial.Open(opts)
 	if err != nil {
 		log.Fatalf("serial.Open: %v", err)
 	}
+	// Make sure to close it later.
+	defer port.Close()
 
+	if options.Loops == 0 {
+		for {
+			loop(port)
+		}
+	} else {
+		var i uint
+		for i = 0; i < options.Loops; i++ {
+			loop(port)
+		}
+	}
+	
+	{
+		_, err := port.Write([]byte("CLEAR\n"))
+		if err != nil {
+			log.Fatalf("port.Write: %v", err)
+		}
+		fmt.Println("CLEAR")
+	}
+}
+
+func loop(port io.ReadWriteCloser) {
 	{
 		buf := make([]byte, 5)
 		n, err := port.Read(buf)
@@ -62,9 +87,6 @@ func main() {
 			fmt.Println("Rx: ", buf)
 		}
 	}
-
-	// Make sure to close it later.
-	defer port.Close()
 
 	for offset := 0; offset < 100; offset++ {
 		for i := 0; i < 10; i++ {
@@ -80,14 +102,6 @@ func main() {
 	}
 
 	time.Sleep(time.Millisecond * 150)
-
-	{
-		_, err := port.Write([]byte("CLEAR\n"))
-		if err != nil {
-			log.Fatalf("port.Write: %v", err)
-		}
-		fmt.Println("CLEAR")
-	}
 }
 
 // Adapted from the neopixel example code.
