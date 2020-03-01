@@ -30,6 +30,7 @@ func init() {
 func main() {
 
 	fmt.Println("port:", options.SerialPort)
+	fmt.Println("loops:", options.Loops)
 	//	portName := flag.String("port", "", "serial port to test (/dev/ttyUSB0, etc)")
 
 	if options.SerialPort == "" {
