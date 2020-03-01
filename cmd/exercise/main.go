@@ -64,8 +64,9 @@ func main() {
 			loop(port)
 		}
 	}
-	
+
 	{
+		time.Sleep(time.Millisecond * 150)
 		_, err := port.Write([]byte("CLEAR\n"))
 		if err != nil {
 			log.Fatalf("port.Write: %v", err)
@@ -100,8 +101,6 @@ func loop(port io.ReadWriteCloser) {
 		}
 		time.Sleep(time.Millisecond * 150)
 	}
-
-	time.Sleep(time.Millisecond * 150)
 }
 
 // Adapted from the neopixel example code.
