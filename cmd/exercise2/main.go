@@ -1,14 +1,13 @@
 package main
 
 import (
+	"flag"
 	"fmt"
-	"github.com/jacobsa/go-serial/serial"
+	"github.com/pkg/term"
+	"io"
+	"log"
+	"os"
 	"time"
- "log"
-"github.com/pkg/term"
- "flag"
- "os"
-"io"
 )
 
 func usage() {
@@ -20,7 +19,7 @@ func usage() {
 var options struct {
 	SerialPort string
 	SerialBaud int
-	Loops int
+	Loops      int
 }
 
 func init() {
@@ -45,11 +44,15 @@ func main() {
 		log.Fatalf("term.Open: %v", err)
 	}
 
+	if err := t.Restore(); err != nil {
+		log.Fatalf("t.Restore: %v", err)
+	}
+
 	if err := t.SetSpeed(options.SerialBaud); err != nil {
 		log.Fatalf("t.SetSpeed: %v", err)
 	}
 
-
+	log.Println("ready...")
 
 	//// Set up options.
 	//opts := serial.OpenOptions{
