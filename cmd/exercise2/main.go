@@ -78,6 +78,8 @@ func main() {
 		}
 	}
 
+	log.Println("looping...")
+
 	if options.Loops == 0 {
 		for {
 			loop(t)
@@ -99,8 +101,10 @@ func main() {
 }
 
 func loop(port *term.Term) {
-	{
-		buf := make([]byte, 5)
+	if i, err := port.Available(); err != nil {
+		fmt.Println("Error reading Available from serial port: ", err)
+	} else {
+		buf := make([]byte, i)
 		n, err := port.Read(buf)
 		if err != nil {
 			if err != io.EOF {
