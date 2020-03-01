@@ -11,6 +11,17 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:9167cb7652c9232fe1aab118399685f1fd8f028c8e6ea24dd402062e8eff5b4b"
+  name = "github.com/pkg/term"
+  packages = [
+    ".",
+    "termios",
+  ]
+  pruneopts = "UT"
+  revision = "aa71e9d9e942418fbb97d80895dcea70efed297c"
+
+[[projects]]
+  branch = "master"
   digest = "1:5637b3b43405643229e55140bb3049dfa7d73957ba9ecfccc31cdadbfbe0b1f9"
   name = "golang.org/x/sys"
   packages = ["unix"]
@@ -20,6 +31,9 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  input-imports = ["github.com/jacobsa/go-serial/serial"]
+  input-imports = [
+    "github.com/jacobsa/go-serial/serial",
+    "github.com/pkg/term",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1
